@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Entree = require('./models/entreeModel')
+const Entree = require('./models/entreesModel')
 const app = express();
 
 mongoose.set('strictQuery', false)
@@ -13,10 +13,51 @@ app.use(express.json())
 
 app.get('/menu/entree', async (req, res) => {
   try {
-    const entreeItem = await Entree.find({})
-      .then((entreeItemData) => res.status(200).json(entreeItemData))
+    const entreeItems = await Entree.find({})
+    res.status(200).json(entreeItems)
   } catch (err) {
-      console.log(err.message);
+      console.log(err);
+      res.status(500).send({ error: err.message });
+  }
+});
+
+app.get('/menu/entree/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const entreeItems = await Entree.findById(id)
+      return res.status(404).json({ message: `item does not exist` });
+  } catch (err) {
+      console.log(err)
+      res.status(500).send({ error: err.message });
+  }
+});
+
+app.put('/menu/entree/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const entreeItem = await Entree.findByIdAndUpdate(id, req.body);
+    if (!entreeItem) {
+      res.status(404).json({message: `item does not exist`})
+    } else {
+      return res.status(202).json({message: 'item has been updated', entreeItem})
+    }
+  } catch (err) {
+      console.log(err);
+      res.status(500).send({ error: err.message });
+  }
+});
+
+app.delete('/menu/entree/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const entreeItem = await Entree.findByIdAndDelete(id);
+    if (!entreeItem) {
+      res.status(404).json({message: `item does not exist`})
+    } else {
+      res.status(200).json({message: `item has been removed`})
+    }
+  } catch (err) {
+      console.log(err);
       res.status(500).send({ error: err.message });
   }
 });
@@ -26,7 +67,7 @@ app.post('/menu/entree', async (req, res) => {
     const entreeItem = await Entree.create(req.body)
     res.status(200).json(entreeItem);
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     res.status(500).send({ error: err.message });
   }
 })
