@@ -26,9 +26,9 @@ const appetizerSchema = new mongoose.Schema(
       validate: {
         validator: function (value) {
           // Check if the value is a number between 1 and 5
-          return value >= 1 && value <= 5;
+          return value >= 0 && value <= 5;
         },
-        message: "Spicy level must be a number between 1 and 5.",
+        message: "Spicy level must be a number between 0 and 5.",
       },
     },
     tags: [String],

@@ -1,4 +1,4 @@
 module.exports = {
-    Entree: require('./entreesModel'),
-    Appetizer: require('./appetizersModel')
+    Entree: require('./entreeModel'),
+    Appetizer: require('./appetizerModel')
 }
