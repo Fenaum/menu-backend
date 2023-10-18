@@ -1,10 +1,10 @@
-const { Appetizer } = require("../models/appetizerModel");
+const { Appetizer } = require("../models");
 
 const appetizerController = {
   async getAllAppetizer(req, res) {
     try {
       const appetizerItems = await Appetizer.find({});
-      res.status(200).json(entreeItems);
+      res.status(200).json(appetizerItems);
     } catch (err) {
       console.log(err);
       res.status(500).send({ error: { code: 500, message: err.message } });

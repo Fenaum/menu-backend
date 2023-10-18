@@ -1,4 +1,4 @@
-const { Entree } = require('../models/entreeModel')
+const { Entree } = require('../models')
 
 const entreeController = {
     async getAllEntree (req, res) {
